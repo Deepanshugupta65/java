@@ -102,7 +102,7 @@ public class Solution {
                 count++;
             }
         }
-
+        
         // If there are no resorts matching the criteria, return 0
         if (count == 0) {
             return 0;
