@@ -95,7 +95,7 @@ public class Solution {
         double totalPrice = 0;
         int count = 0;
 
-        // Iterate over each resort to find matches based on category and rating
+        
         for (Resort resort : resorts) {
             if (resort.getCategory().equalsIgnoreCase(category) && resort.getRating() > 4) {
                 totalPrice += resort.getPrice();
