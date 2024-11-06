@@ -1,7 +1,7 @@
 package basicsOfJava;
 
 import java.util.Scanner;
-
+// ass cendin 
 public class Sortthe{
     
     public static void main(String[] args){
@@ -14,11 +14,12 @@ public class Sortthe{
         }
         int arr2[] = sortthearray(arr,5);
         for(int i =0;i<5;i++){
-            // System.out.println(arr2[i]);
-            if(arr2[i]==2){
-         System.out.println(arr2[i]);
-            }
+            System.out.println(arr2[i]);
+        //     if(arr2[i]==2){
+        //  System.out.println(arr2[i]);
+        //     }
         }
+        sc.close();
     }
     public static int[] sortthearray(int arr[], int n){
         for(int i =0;i<n;i++){

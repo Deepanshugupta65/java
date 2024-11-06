@@ -97,7 +97,7 @@ public class Rough {
     }
 
     // Method to sort players by playerId in descending order
-    public static void sortPlayersByDescendingId(Player[] players) {
+    public static Player[] sortPlayersByDescendingId(Player[] players) {
         int n = players.length;
         for (int i = 0; i < n; i++) {
             for (int j = i + 1; j < n; j++) {
@@ -108,5 +108,6 @@ public class Rough {
                 }
             }
         }
+        return players;
     }
 }
