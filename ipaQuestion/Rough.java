@@ -1,6 +1,5 @@
 package ipaQuestion;
-
-import java.util.Scanner;
+import java.util.*;
 
 class Player {
     private int playerId;
@@ -9,7 +8,6 @@ class Player {
     private String playerType;
     private String matchType;
 
-    // Constructor
     public Player(int playerId, String playerName, int runs, String playerType, String matchType) {
         this.playerId = playerId;
         this.playerName = playerName;
@@ -18,7 +16,6 @@ class Player {
         this.matchType = matchType;
     }
 
-    // Getters
     public int getPlayerId() {
         return playerId;
     }
@@ -45,69 +42,81 @@ public class Rough {
         Scanner sc = new Scanner(System.in);
         Player[] players = new Player[4];
 
-        // Input player details
         for (int i = 0; i < 4; i++) {
             int playerId = sc.nextInt();
-            sc.nextLine(); // consume newline
+            sc.nextLine();  
             String playerName = sc.nextLine();
             int runs = sc.nextInt();
-            sc.nextLine(); // consume newline
+            sc.nextLine();
             String playerType = sc.nextLine();
             String matchType = sc.nextLine();
+
             players[i] = new Player(playerId, playerName, runs, playerType, matchType);
         }
 
-        String playerTypeSearch = sc.nextLine(); // input for playerType search
-        String matchTypeSearch = sc.nextLine(); // input for matchType search
+        String targetPlayerType = sc.nextLine();
+        String targetMatchType = sc.nextLine();
 
-        // Find the player with the lowest runs for the given playerType
-        int minimumRun = findPlayerWithLowestRuns(players, playerTypeSearch);
-        if (minimumRun > 0) {
-            System.out.println(minimumRun);
+        int lowestRuns = findPlayerWithLowestRuns(players, targetPlayerType);
+        if (lowestRuns > 0) {
+            System.out.println(lowestRuns);
         } else {
             System.out.println("No such player");
         }
 
-        // Find players by matchType and print their IDs in descending order
-        sortPlayersByDescendingId(players);
-        for (Player player : players) {
-            if (player.getMatchType().equalsIgnoreCase(matchTypeSearch)) {
-                System.out.println(player.getPlayerId());
+        Player[] matchedPlayers = findPlayerByMatchType(players, targetMatchType);
+        if (matchedPlayers != null) {
+            for (int i = 0; i < matchedPlayers.length; i++) {
+                System.out.println(matchedPlayers[i].getPlayerId());
             }
+        } else {
+            System.out.println("No Player with given matchType");
         }
 
         sc.close();
     }
 
-    // Method to find the player with the lowest runs for a given playerType
     public static int findPlayerWithLowestRuns(Player[] players, String playerType) {
-        int minRun = Integer.MAX_VALUE;
+        int lowestRuns = Integer.MAX_VALUE;
         boolean found = false;
 
-        for (Player player : players) {
-            if (player.getPlayerType().equalsIgnoreCase(playerType)) {
-                if (player.getRuns() < minRun) {
-                    minRun = player.getRuns();
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getPlayerType().equalsIgnoreCase(playerType)) {
+                if (players[i].getRuns() < lowestRuns) {
+                    lowestRuns = players[i].getRuns();
                     found = true;
                 }
             }
         }
 
-        return found ? minRun : 0; // Return 0 if no player was found
+        return found ? lowestRuns : 0;
     }
 
-    // Method to sort players by playerId in descending order
-    public static Player[] sortPlayersByDescendingId(Player[] players) {
-        int n = players.length;
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (players[i].getPlayerId() < players[j].getPlayerId()) {
-                    Player temp = players[i];
-                    players[i] = players[j];
-                    players[j] = temp;
+    public static Player[] findPlayerByMatchType(Player[] players, String matchType) {
+        Player[] matchedPlayers = new Player[players.length];
+        int count = 0;
+
+        for (int i = 0; i < players.length; i++) {
+            if (players[i].getMatchType().equalsIgnoreCase(matchType)) {
+                matchedPlayers[count++] = players[i];
+            }
+        }
+
+        if (count == 0) {
+            return null;
+        }
+
+        // Sorting players in descending order of playerId (Selection Sort)
+        for (int i = 0; i < count - 1; i++) {
+            for (int j = i + 1; j < count; j++) {
+                if (matchedPlayers[i].getPlayerId() < matchedPlayers[j].getPlayerId()) {
+                    Player temp = matchedPlayers[i];
+                    matchedPlayers[i] = matchedPlayers[j];
+                    matchedPlayers[j] = temp;
                 }
             }
         }
-        return players;
+
+        return Arrays.copyOf(matchedPlayers, count);
     }
 }
