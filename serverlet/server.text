@@ -1,0 +1,78 @@
+servelet
+
+ it is simple java programming that runs on server and capable 
+of handling request and genrating dynamic response 
+
+user request on server in server there is a java probgramming it execute into dynamic response to send to user
+
+///// creation of server at 3 ways
+1. using servlet interface
+
+
+A.- javax.servlet.servlet
+b.- must be override all the method
+c.- 5 methods in Servlet interface
+|
+Life cycle method
+1. public void init(ServletConfig config); 
+ // servelet program run and depoly on server automatically call the init method and pass the parameter
+
+2. public void service(ServletRequest request,ServletResponse response);
+ // when user or client send request on servlet it service method call 
+
+3. public void destroy()
+// when servelet destroy it call automatically 
+
+Non life cycle method
+4. public ServletConfig getServletConfig();
+// it return object when it initailse
+
+5. public String getServletInfo();
+// message are shown like login page created 
+
+
+Deploy in server
+
+web.xml - Deployment descriptor....// there are multiple servlet .. to kaunse servelet pe request jayega to aur kaun sa servlet run hoga ..
+                                    // or it connect fronted with backend
+url mapping : www.facebook.com/login 
+              www.facebook.com/register ...
+          /// all this type of mapping are run on web.xml file 
+
+
+          // src -> java program
+          // libraries ->  server and java file
+          // web content -> html css js file
+          // web-inf-> web.xml -> frontend connect with servlet                                         
+                    -> lib -> paste servelet-api from api forma
+
+
+   ---------
+
+
+   2. using genricservletclass
+
+in the servelet interace we are using 5 method in servlaet but in 
+genric method 4 methods have body but one abstracr service are there 
+
+it intranlly implemrent servlet interface it override 4 method ...
+
+but not service method ///// code in secondprogram
+
+
+3. httpServlet
+
+it provides http specific methods such as doGet,doPost,
+doHead,doTrace etc...
+we dont have to overide any method if any reqeuest recived it automaticall call doget or dopost method
+it call the method internally in service method 
+it present on javax.servlet.http
+
+
+
+
+2nd chapter 
+
+servelt life cycle
+start -> 1. loading &initailsation where servelt are load 2. initialization where servelet are init() 3. handling request where all the request handled by this eg get post method 4. End after that destry( ) called -> end life cycle
+
