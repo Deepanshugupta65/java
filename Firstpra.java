@@ -1,8 +1,6 @@
-// package pra;
 
-// import java.util.Scanner;
 import java.util.Scanner;
-
+import java.util.Arrays;
 class Course{
     private int courseId;
     private String courseName;
@@ -67,9 +65,22 @@ public class Firstpra {
             courses[i] = new Course(courseId,courseName,courseAdmin,quiz,handson);
         }
         String courseAdminSearch = sc.nextLine();
+        int handsonnum = sc.nextInt();
+        sc.nextLine();
         // findAvgOfQuizByAdmin
         int ans = findAvgOfQuizByAdmin(courses,courseAdminSearch);
         System.out.println(ans);
+        ///////////////  
+        /// 
+        Course[] sortedans =      sortCourseByHandsOn(courses,handsonnum);
+        if(sortedans!=null){
+            for(int i =0;i<sortedans.length;i++){
+                System.out.println(sortedans[i].getcourseName());
+            } 
+        }
+        else {
+            System.out.println("no course ");
+        }
     }
     public static int findAvgOfQuizByAdmin(Course[] courses,String adminsearch){
         int sumquiz =0;
@@ -84,4 +95,26 @@ public class Firstpra {
         if(avg>0) return avg;
         else return 0;
     }
+    public static Course[] sortCourseByHandsOn(Course[] courses,int num){
+     Course[] coursebyhand = new Course[4];
+     int cnt =0;
+     for(int i =0;i<4;i++){
+        if(courses[i].gethandson()<num){
+            coursebyhand[cnt++] = courses[i];
+        }
+     }
+     if(cnt==0){
+        return null;
+     }
+    for(int i =0;i<cnt-1;i++){
+        for(int j =i+1;j<cnt;j++){
+          if(coursebyhand[i].gethandson()>coursebyhand[j].gethandson()){
+            Course temp = coursebyhand[i];
+            coursebyhand[i] = coursebyhand[j];
+            coursebyhand[j] = temp;
+          }
+        }
+    }
+    return Arrays.copyOf(coursebyhand, cnt);
+  }
 }
