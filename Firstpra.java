@@ -1,120 +1,121 @@
-
 import java.util.Scanner;
-import java.util.Arrays;
-class Course{
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+// import java.util.List;
+
+class Course {
     private int courseId;
     private String courseName;
     private String courseAdmin;
     private int quiz;
     private int handson;
 
-    // constructor
-    public Course(int courseId,String courseName ,String courseAdmin , int quiz,int handson){
-    this.courseId = courseId;
-    this.courseName = courseName;
-    this.courseAdmin = courseAdmin;
-    this.quiz = quiz;
-    this.handson = handson;
+    // Constructor
+    public Course(int courseId, String courseName, String courseAdmin, int quiz, int handson) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.courseAdmin = courseAdmin;
+        this.quiz = quiz;
+        this.handson = handson;
     }
-    // getter and setter
-    public int getcourseId(){
+
+    // Getters
+    public int getCourseId() {
         return courseId;
     }
-    public void setcourseId(int courseId){
-        this.courseId = courseId;
-    }
-    public String getcourseName(){
+
+    public String getCourseName() {
         return courseName;
     }
-    public void setcourseName(String courseName){
-        this.courseName = courseName;
-    }
-    public String getcourseAdmin(){
+
+    public String getCourseAdmin() {
         return courseAdmin;
     }
-    public void setcourseAdmin(String courseAdmin ){
-        this.courseAdmin = courseAdmin;
-    }
-    public int getquiz(){
+
+    public int getQuiz() {
         return quiz;
     }
-    public void setquiz(int quiz){
-        this.quiz = quiz;
-    }
-    public int gethandson(){
+
+    public int getHandson() {
         return handson;
     }
-    public void sethandson(int handson){
-        this.handson = handson;
+}
+
+// Comparator to sort by "handson" in descending order
+class SortByHandson implements Comparator<Course> {
+    public int compare(Course a, Course b) {
+        return b.getHandson() - a.getHandson(); // Descending order
     }
 }
 
 public class Firstpra {
-    public static void main(String [] args){
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Course[] courses = new Course[4];
-        for(int i =0;i<4;i++){
+
+        // Input for courses
+        for (int i = 0; i < 4; i++) {
             int courseId = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); // Consume newline
             String courseName = sc.nextLine();
             String courseAdmin = sc.nextLine();
             int quiz = sc.nextInt();
-            sc.nextLine();
+            sc.nextLine(); // Consume newline
             int handson = sc.nextInt();
-            sc.nextLine();
-            courses[i] = new Course(courseId,courseName,courseAdmin,quiz,handson);
+            sc.nextLine(); // Consume newline
+            courses[i] = new Course(courseId, courseName, courseAdmin, quiz, handson);
         }
+
+        // Search input
         String courseAdminSearch = sc.nextLine();
-        int handsonnum = sc.nextInt();
-        sc.nextLine();
-        // findAvgOfQuizByAdmin
-        int ans = findAvgOfQuizByAdmin(courses,courseAdminSearch);
-        System.out.println(ans);
-        ///////////////  
-        /// 
-        Course[] sortedans =      sortCourseByHandsOn(courses,handsonnum);
-        if(sortedans!=null){
-            for(int i =0;i<sortedans.length;i++){
-                System.out.println(sortedans[i].getcourseName());
-            } 
+        int handsonNum = sc.nextInt();
+        sc.nextLine(); // Consume newline
+
+        // Find average of quizzes by admin
+        int avgQuiz = findAvgOfQuizByAdmin(courses, courseAdminSearch);
+        System.out.println(avgQuiz);
+
+        // Find courses with hands-on exercises less than handsonNum and sort them
+        ArrayList<Course> sortedCourses = sortCourseByHandsOn(courses, handsonNum);
+        if (!sortedCourses.isEmpty()) {
+            for (Course course : sortedCourses) {
+                System.out.println(course.getCourseName());
+            }
+        } else {
+            System.out.println("no course");
         }
-        else {
-            System.out.println("no course ");
-        }
+
+        sc.close(); // Close scanner
     }
-    public static int findAvgOfQuizByAdmin(Course[] courses,String adminsearch){
-        int sumquiz =0;
-        int cnt =0;
-        for(int i =0;i<4;i++){
-            if(courses[i].getcourseAdmin().equalsIgnoreCase(adminsearch)){
-                sumquiz = courses[i].getquiz()+sumquiz;
-                cnt++;
+
+    public static int findAvgOfQuizByAdmin(Course[] courses, String adminSearch) {
+        int sumQuiz = 0, count = 0;
+
+        for (Course course : courses) {
+            if (course.getCourseAdmin().equalsIgnoreCase(adminSearch)) {
+                sumQuiz += course.getQuiz();
+                count++;
             }
         }
-        int avg = sumquiz/cnt;
-        if(avg>0) return avg;
-        else return 0;
+
+        // Avoid division by zero
+        return (count > 0) ? (sumQuiz / count) : 0;
     }
-    public static Course[] sortCourseByHandsOn(Course[] courses,int num){
-     Course[] coursebyhand = new Course[4];
-     int cnt =0;
-     for(int i =0;i<4;i++){
-        if(courses[i].gethandson()<num){
-            coursebyhand[cnt++] = courses[i];
+
+    public static ArrayList<Course> sortCourseByHandsOn(Course[] courses, int num) {
+        ArrayList<Course> filteredCourses = new ArrayList<>();
+
+        // Filter courses with handson < num
+        for (Course course : courses) {
+            if (course.getHandson() < num) {
+                filteredCourses.add(course);
+            }
         }
-     }
-     if(cnt==0){
-        return null;
-     }
-    for(int i =0;i<cnt-1;i++){
-        for(int j =i+1;j<cnt;j++){
-          if(coursebyhand[i].gethandson()>coursebyhand[j].gethandson()){
-            Course temp = coursebyhand[i];
-            coursebyhand[i] = coursebyhand[j];
-            coursebyhand[j] = temp;
-          }
-        }
+
+        // Sort in descending order of handson
+        Collections.sort(filteredCourses, new SortByHandson());
+
+        return filteredCourses;
     }
-    return Arrays.copyOf(coursebyhand, cnt);
-  }
 }
