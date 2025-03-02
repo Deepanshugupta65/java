@@ -77,6 +77,7 @@ public class Prafirst {
     	int regNoid = sc.nextInt();
     	sc.nextLine();
     	String packageTypeSearch = sc.nextLine();
+		sc.close();
     	int ans1 =findAgencyWithHighestPackagePrice(arr);
     	if(ans1!=0) {
     		System.out.println(ans1);

@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class FileA {
     public static void main(String[] args) {
@@ -32,7 +33,11 @@ public class FileA {
         // remove an elemt e
         l1.remove(Integer.valueOf(6));
         System.out.println(l1);
-
-         
+Scanner sc = new Scanner(System.in);
+        ArrayList<Integer> newarr = new ArrayList<>();
+         for(int i =0;i<5;i++){
+          newarr.add(sc.nextInt());
+         }
+         System.out.println(newarr);
     }
 }
