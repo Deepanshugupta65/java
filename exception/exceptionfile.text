@@ -1,0 +1,5 @@
+the exception handling is a way to handle the runtime errors so that the normal flow of the 
+application can be maintained 
+ 
+  and excption is will occur when code is stopped 
+  and not execute fursther line of code 

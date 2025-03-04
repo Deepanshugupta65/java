@@ -55,12 +55,7 @@ class OrderServices{
             System.out.println("orderid not found");
             return null;
            }
-        //    int maxIndex =0;
-        //    for(int j =1;j<quantities.size();j++){
-        //     if(quantities.get(j)>quantities.get(maxIndex)){
-        //         maxIndex = j;
-        //     }
-        //    }
+      
         int max =0;
         int maxIndex =0;
         for(int j =0;j<quantities.size();j++){
@@ -75,8 +70,31 @@ class OrderServices{
         System.out.println("order id not found");
         return null;
     }
+    public List<Orders> serachfororder(String productnameSearch) {
+        List<Orders> resultOrder = new ArrayList<>();
+        for(int i =0;i<ordersList.size();i++){
+            List<String> products = ordersList.get(i).getProductName();
+            for(int j =0;j<products.size();j++){
+                if(products.get(j).equalsIgnoreCase(productnameSearch)){
+                    resultOrder.add(ordersList.get(i));
+                    break;
+                }
+            }
+        }
+        if(resultOrder.isEmpty()){
+            // throw new productnotfoundexception("not found id");
+            System.out.println("not foind");
+        }
+        return resultOrder;
+    }
+  
 }
 
+// class productnotfoundexception extends Exception{
+//     public productnotfoundexception (String message){
+//         super(message);
+//     }
+// }
 public class Mock {
      public static void main(String[]args){
         Scanner sc = new Scanner(System.in);
@@ -104,10 +122,23 @@ public class Mock {
         OrderServices service = new OrderServices(ordersList);
         int serachId = sc.nextInt();
         sc.nextLine();
+        String productnameSearch = sc.nextLine();
+        sc.close();
        String maxPr =  service.findmax(serachId);
        if(maxPr!=null){
         System.out.println(maxPr);
        }
-       sc.close();
+    //    try {
+           List<Orders>ans = service.serachfororder(productnameSearch);
+          for(int i =0;i<ans.size();i++){
+            System.out.println(ans.get(i).getorderId());
+            System.out.println(ans.get(i).getOrderName());
+        //   }
+    //    } catch (productnotfoundexception e) {
+    //     // TODO: handle exception
+    //     System.out.println(e.getMessage());
+    //    }
+      
      }
+}
 }
